@@ -90,7 +90,7 @@
             <plugin>jpa</plugin>
           </compilerPlugins>
           <pluginOptions>
-            <option>no-arg:annotation=io.fantasy0v0.annotation.NoArg</option>
+            <option>no-arg:annotation=jakarta.persistence.Entity</option>
           </pluginOptions>
         </configuration>
         <dependencies>
