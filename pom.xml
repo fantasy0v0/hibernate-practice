@@ -64,7 +64,6 @@
                 <sourceDir>src/main/kotlin</sourceDir>
               </sourceDirs>
               <annotationProcessorPaths>
-                <!-- Specify your annotation processors here. -->
                 <annotationProcessorPath>
                   <groupId>org.hibernate.orm</groupId>
                   <artifactId>hibernate-jpamodelgen</artifactId>
@@ -86,6 +85,21 @@
             </configuration>
           </execution>
         </executions>
+        <configuration>
+          <compilerPlugins>
+            <plugin>jpa</plugin>
+          </compilerPlugins>
+          <pluginOptions>
+            <option>no-arg:annotation=io.fantasy0v0.annotation.NoArg</option>
+          </pluginOptions>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-noarg</artifactId>
+            <version>${kotlin.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>
