@@ -97,3 +97,32 @@ val student = studentRepository.getReferenceById(1L)
 println(student.clazz.name)
 ```
 具体可以到ManyToOneTest#test1中进行试用和调试
+
+## 注意事项
+
+### 如何做到动态更新
+默认情况下, JPA每次更新都会set所有的非主键字段, 但有些时候我们只需要更新部分字段, 该如何实现呢?
+
+使用@DynamicUpdate注解, 有了该注解的实体类, 在进行更新操作时, 只会更新有数据变更的列
+
+### 阻止某些列参与更新
+有些时候, 我们希望就算某些属性就算发送了变更, 也不更新到数据库中, 此时只需要在@Column的参数声明updatable=true即可
+
+### ManyToOne如何不使用外键
+默认情况下, ManyToOne会自动生成一条外键, 部分公司或开发人员可能更倾向于使用没有外键的方式
+
+我们可以通过使用JoinColumn注解取消外键的生成
+```kotlin
+@ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+var clazz: Clazz
+```
+
+### 为什么我没有调用更新方法, 最终却更新到数据库中?
+> _由于在Kotlin下没有复现, 所以需要先确认下是否是新版本做了改动还是Java才会有的问题_
+
+默认情况下, JPA会提交你对实体类做的任何修改(尽管你没有调用更新方法).
+
+据我了解目前无法阻止JPA的这种行为, 不过如果我们换一种思路, 实体类就是数据库中记录的引用, 更新实体类就是在更新表记录, 这样是否更加容易接受呢?
+
+最好不要将实体类用于其他用途
