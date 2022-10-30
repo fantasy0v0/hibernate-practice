@@ -1,4 +1,4 @@
-package io.fantasy0v0.po.student
+package io.fantasy0v0.po.clazz
 
 import org.hibernate.annotations.DynamicUpdate
 import java.time.LocalDateTime
@@ -6,7 +6,7 @@ import javax.persistence.*
 
 @Entity
 @DynamicUpdate
-class Student(
+class Clazz(
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   var id: Long? = null,
