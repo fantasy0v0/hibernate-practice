@@ -106,7 +106,7 @@ println(student.clazz.name)
 使用@DynamicUpdate注解, 有了该注解的实体类, 在进行更新操作时, 只会更新有数据变更的列
 
 ### 阻止某些列参与更新
-有些时候, 我们希望就算某些属性发送了变更, 也不要更新到数据库中, 此时只需要在@Column的参数声明updatable=true即可
+有些时候, 我们希望就算某些属性发送了变更, 也不要更新到数据库中, 此时只需要在@Column的参数声明updatable = false即可
 
 ### ManyToOne如何不使用外键
 默认情况下, ManyToOne会自动生成一条外键, 部分公司或开发人员可能更倾向于使用没有外键的方式
