@@ -119,10 +119,25 @@ var clazz: Clazz
 ```
 
 ### 为什么我没有调用更新方法, 最终却更新到数据库中?
-> _由于在Kotlin下没有复现, 所以需要先确认下是否是新版本做了改动还是Java才会有的问题_
+在手动开启事务的情况下(open-in-view的不算), JPA会提交你对实体类做的任何修改(尽管你没有调用更新方法).
+```
+/**
+ * 在这个例子中的最后, 
+ * 我们修改了student的name, 
+ * 尽管我们没有进行任何的更新操作, 
+ * jpa还是替我们提交了对student的修改
+ */
+@Transactional
+@GetMapping("/test1")
+@ResponseBody
+public String test1() {
+  Student student = Student.builder().name("xxx").build();
+  systemResourceRepository.saveAndFlush(student);
+  student.setName("modify");
+  return "test1";
+}
+```
 
-默认情况下, JPA会提交你对实体类做的任何修改(尽管你没有调用更新方法).
+据我了解目前无法对JPA的这种行为进行限制, 不过如果我们换一种思路, 实体类就是数据库中记录的引用, 更新实体类就是在更新表记录, 这样是否更加容易接受呢?
 
-据我了解目前无法阻止JPA的这种行为, 不过如果我们换一种思路, 实体类就是数据库中记录的引用, 更新实体类就是在更新表记录, 这样是否更加容易接受呢?
-
-最好不要将实体类用于其他用途
+所以, 最好不要将实体类用于其他用途, 只作为数据库记录的载体而使用。
