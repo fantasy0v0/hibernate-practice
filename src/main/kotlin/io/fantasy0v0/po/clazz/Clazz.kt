@@ -14,6 +14,6 @@ class Clazz(
   @Column(nullable = false)
   var name: String,
 
-  @Column(nullable = false)
+  @Column(nullable = false, updatable = false)
   var createdAt: LocalDateTime = LocalDateTime.now()
 )

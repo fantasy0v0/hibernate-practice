@@ -15,7 +15,7 @@ class Student(
   @Column(nullable = false)
   var name: String,
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(foreignKey = ForeignKey(value = ConstraintMode.CONSTRAINT))
   var clazz: Clazz,
 

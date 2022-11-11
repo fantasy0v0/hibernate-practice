@@ -1,4 +1,4 @@
-package io.fantasy0v0.uitl
+package io.fantasy0v0.helper
 
 import io.fantasy0v0.po.clazz.Clazz
 import io.fantasy0v0.po.student.Student

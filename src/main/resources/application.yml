@@ -1,16 +1,19 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:file:${Temp}/db1
     username: sa
+    hikari:
+      auto-commit: false
   jpa:
     properties:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     database-platform: org.hibernate.dialect.H2Dialect
-
+    open-in-view: true
 
 logging:
   level:
+    org.springframework: DEBUG
     org.hibernate.SQL: DEBUG

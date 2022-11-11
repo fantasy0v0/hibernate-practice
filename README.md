@@ -46,7 +46,7 @@ var po = Student.builder().name("xxx").build();
 
 ### Kotlin
 
-Kotlin需要配合NoArg插件才能正常使用, 可以参考本项目的配置
+Kotlin需要配合NoArg、AllOpen插件才能正常使用, 可以参考本项目的配置
 ```kotlin
 @Entity
 @DynamicUpdate
@@ -119,22 +119,20 @@ var clazz: Clazz
 ```
 
 ### 为什么我没有调用更新方法, 最终却更新到数据库中?
-在手动开启事务的情况下(open-in-view的不算), JPA会提交你对实体类做的任何修改(尽管你没有调用更新方法).
-```java
+Jpa会提交你对实体类做的任何修改(尽管你没有调用更新方法).
+```kotlin
 /**
  * 在这个例子中的最后, 
- * 我们修改了student的name, 
- * 尽管我们没有进行任何的更新操作, 
- * jpa还是替我们提交了对student的修改
+ * 我们修改了clazz的name, 
+ * 尽管我们没有进行任何的更新和提交操作, 
+ * jpa还是替我们提交了对clazz的修改
  */
-@Transactional
-@GetMapping("/test1")
-@ResponseBody
-public String test1() {
-  Student student = Student.builder().name("xxx").build();
-  systemResourceRepository.saveAndFlush(student);
-  student.setName("modify");
-  return "test1";
+@GetMapping("/test")
+fun test(): String {
+  val clazz = clazzHelper.create()
+  clazz.name = "modify"
+  val student = studentHelper.create(clazz)
+  return String.format("%s %s", student.id, student.name)
 }
 ```
 
