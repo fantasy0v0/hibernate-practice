@@ -119,7 +119,7 @@ var clazz: Clazz
 ```
 
 ### 为什么我没有调用更新方法, 最终却更新到数据库中?
-Jpa会提交你对实体类做的任何修改(尽管你没有调用更新方法).
+在手动开启事务的情况下(open-in-view的不算), Jpa会提交你对实体类做的任何修改(尽管你没有调用更新方法).
 ```kotlin
 /**
  * 在这个例子中的最后, 
@@ -127,12 +127,12 @@ Jpa会提交你对实体类做的任何修改(尽管你没有调用更新方法)
  * 尽管我们没有进行任何的更新和提交操作, 
  * jpa还是替我们提交了对clazz的修改
  */
+@Transactional
 @GetMapping("/test")
-fun test(): String {
+open fun test(): String {
   val clazz = clazzHelper.create()
   clazz.name = "modify"
-  val student = studentHelper.create(clazz)
-  return String.format("%s %s", student.id, student.name)
+  return String.format("%s %s", clazz.id, clazz.name)
 }
 ```
 
