@@ -11,8 +11,8 @@ import org.springframework.data.jpa.domain.Specification
 
 @SpringBootTest
 class ManyToOneTest(
-  @Autowired val studentHelper: StudentHelper,
-  @Autowired val studentRepository: StudentRepository
+  @Autowired private val studentHelper: StudentHelper,
+  @Autowired private val studentRepository: StudentRepository
 ) {
 
   /**

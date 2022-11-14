@@ -9,8 +9,8 @@ import java.time.LocalDateTime
 
 @Component
 class StudentHelper(
-  @Autowired val clazzHelper: ClazzHelper,
-  @Autowired val studentRepository: StudentRepository) {
+  @Autowired private val clazzHelper: ClazzHelper,
+  @Autowired private val studentRepository: StudentRepository) {
 
   fun create(clazz: Clazz? = null, name: String = "xxx"): Student {
     val student = Student(name = name, clazz = clazz ?: clazzHelper.create(), createdAt = LocalDateTime.now())

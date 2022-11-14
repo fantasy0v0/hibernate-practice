@@ -21,6 +21,9 @@
 在引入Lombok的前提下, 可以参考以下方式
 
 ```java
+/**
+ * 不直接使用@Data的原因是, Lombok自动生成的方法会在调用时触发懒加载, 例如toString会打印实体类中所有属性的值
+ */
 @Getter
 @Setter
 @Builder
@@ -37,6 +40,10 @@ public class Student {
   @Column(nullable = false)
   private String name;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+  private Clazz clazz;
+  
   @CreationTimestamp
   @Column(insertable = false)
   private LocalDateTime createdAt;
@@ -60,7 +67,11 @@ class Student(
 
   @Column(nullable = false)
   var name: String,
-
+  
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(foreignKey = ForeignKey(value = ConstraintMode.NO_CONSTRAINT))
+  var clazz: Clazz,
+  
   @CreationTimestamp
   @Column(insertable = false)
   var createdAt: LocalDateTime = LocalDateTime.now()

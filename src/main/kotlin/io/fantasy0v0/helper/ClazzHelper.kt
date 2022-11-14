@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class ClazzHelper(
-  @Autowired var clazzRepository: ClazzRepository
+  @Autowired private var clazzRepository: ClazzRepository
 ) {
 
   fun create(): Clazz {
