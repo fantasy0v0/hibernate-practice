@@ -112,6 +112,61 @@ println(student.clazz.name)
 ```
 具体可以到ManyToOneTest#test1中进行试用和调试
 
+### 简单条件查询
+该章节将为大家介绍如何在Spring Data Jpa中如何进行简单条件查询
+
+#### 根据Id查询
+如果我们需要根据id查询, 可以使用我们之前编写好的Repository接口的getReferenceById方法查询
+
+#### 根据id以外的字段查询
+光有根据Id查询是不能满足日常的开发工作的, 我们通常还会需要根据其他字段进行查询
+
+此时我们可以使用Spring Data Jpa提供的[Query Methods](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods)来快速编写一些简单的查询方法
+
+```kotlin
+interface StudentRepository: AbstractRepository<Student, Long> {
+
+  /**
+   * 根据名称查询
+   */
+  fun findAllByName(name: String): List<Student>
+}
+```
+调用该方法, 会为我们自动生成如下的**HQL**语句
+```sql
+select s from Student s where s.name = ?1
+```
+#### 不太想用Query Methods, 有没有直观一点的方法?
+如果你也有这样的烦恼的, 可以尝试一下@Query注解, 它支持我们直接编写HQL或SQL
+```kotlin
+interface StudentRepository: AbstractRepository<Student, Long> {
+
+  /**
+   * 根据名称查询
+   */
+  @Query("""
+    select s from Student s where s.name = ?1
+  """)
+  fun findAllByNameWithQuery(name: String): List<Student>
+
+  /**
+   * 根据名称查询, 使用原生sql语句
+   */
+  @Query("""
+    select * from student where name = ?1
+  """, nativeQuery = true)
+  fun findAllByNameWithNativeQuery(name: String): List<Student>
+}
+```
+### 复杂条件查询
+看过之前章节的人应该会发现, 简单条件查询很难满足实际开发需求, 我们可以通过接下来的内容来了解如何在Spring Data Jpa中进行复杂条件查询
+
+> 这一章节应该是大家都非常关心的问题了吧, 如果不把这个问题解决, 可能会让很多人放弃使用Spring Data Jpa😥
+
+#### 使用Specification进行复杂条件查询
+
+TODO
+
 ## 注意事项
 
 ### 如何做到动态更新
