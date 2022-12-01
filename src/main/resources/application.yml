@@ -11,7 +11,7 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.H2Dialect
-    open-in-view: true
+    open-in-view: false
 
 logging:
   level:
