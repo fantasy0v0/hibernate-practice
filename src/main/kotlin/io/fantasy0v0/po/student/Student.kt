@@ -3,7 +3,7 @@ package io.fantasy0v0.po.student
 import io.fantasy0v0.po.clazz.Clazz
 import org.hibernate.annotations.DynamicUpdate
 import java.time.LocalDateTime
-import javax.persistence.*
+import jakarta.persistence.*
 
 @Entity
 @DynamicUpdate
