@@ -1,8 +1,8 @@
 package io.fantasy0v0.many_to_one
 
+import io.fantasy0v0.helper.StudentHelper
 import io.fantasy0v0.po.student.StudentRepository
 import io.fantasy0v0.po.student.Student_
-import io.fantasy0v0.helper.StudentHelper
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired

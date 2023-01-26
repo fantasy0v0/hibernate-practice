@@ -3,6 +3,7 @@ package io.fantasy0v0.po.clazz
 import org.hibernate.annotations.DynamicUpdate
 import java.time.LocalDateTime
 import jakarta.persistence.*
+import org.hibernate.annotations.CreationTimestamp
 
 @Entity
 @DynamicUpdate
@@ -14,6 +15,7 @@ class Clazz(
   @Column(nullable = false)
   var name: String,
 
+  @CreationTimestamp
   @Column(nullable = false, updatable = false)
-  var createdAt: LocalDateTime = LocalDateTime.now()
+  var createdAt: LocalDateTime
 )

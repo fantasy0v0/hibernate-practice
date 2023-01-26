@@ -4,6 +4,7 @@ import io.fantasy0v0.po.clazz.Clazz
 import org.hibernate.annotations.DynamicUpdate
 import java.time.LocalDateTime
 import jakarta.persistence.*
+import org.hibernate.annotations.CreationTimestamp
 
 @Entity
 @DynamicUpdate
@@ -19,6 +20,7 @@ class Student(
   @JoinColumn(foreignKey = ForeignKey(value = ConstraintMode.CONSTRAINT))
   var clazz: Clazz,
 
+  @CreationTimestamp
   @Column(nullable = false, updatable = false)
-  var createdAt: LocalDateTime = LocalDateTime.now()
+  var createdAt: LocalDateTime
 )
