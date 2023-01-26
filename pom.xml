@@ -129,6 +129,7 @@
           </compilerPlugins>
           <pluginOptions>
             <option>all-open:annotation=jakarta.persistence.Entity</option>
+            <option>all-open:annotation=jakarta.transaction.Transactional</option>
           </pluginOptions>
         </configuration>
         <dependencies>
