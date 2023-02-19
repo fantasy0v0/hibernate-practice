@@ -1,6 +1,7 @@
 package io.fantasy0v0.po.student
 
 import io.fantasy0v0.po.AbstractRepository
+import io.fantasy0v0.po.student.dto.StudentClassDto
 import org.springframework.data.jpa.repository.Query
 
 interface StudentRepository: AbstractRepository<Student, Long> {
@@ -25,4 +26,12 @@ interface StudentRepository: AbstractRepository<Student, Long> {
     select * from student where name = ?1
   """, nativeQuery = true)
   fun findAllByNameWithNativeQuery(name: String): List<Student>
+
+  @Query("""
+    select 
+    new io.fantasy0v0.po.student.dto.StudentClassDto(s, c)
+    from Student s left join Clazz c on c = s.clazz
+  """)
+  fun findAll_1(): List<StudentClassDto>
+
 }
