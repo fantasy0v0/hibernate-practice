@@ -10,7 +10,7 @@ import org.hibernate.annotations.CreationTimestamp
 class Clazz(
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  var id: Long? = null,
+  var id: Long = 0,
 
   @Column(nullable = false)
   var name: String,

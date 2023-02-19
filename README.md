@@ -63,7 +63,7 @@ Kotlin需要配合NoArg、AllOpen插件才能正常使用, 可以参考本项目
 class Student(
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  var id: Long? = null,
+  var id: Long = 0,
 
   @Column(nullable = false)
   var name: String,
@@ -236,6 +236,23 @@ fun findAll(): List<StudentClassDto>
 
 详情可见单元测试**DtoTest#test_1**
 
-## 使用Specification进行复杂条件查询
+## 使用@Query进行动态条件查询
 
-TODO
+```kotlin
+@Query("""
+  Select s from Student s left join fetch Clazz c on c = s.clazz
+  Where
+    (?1 is null or c.id = ?1)
+  and
+    (?2 is null or s.id = ?2)
+""")
+fun findAll_2(clazzId: Long?, studentId: Long?): List<Student>
+```
+
+## 使用Specification进行动态条件查询
+
+TODO 目前发现的缺陷
+
+- @Query不能和Specification同时使用
+- Specification只能返回Entity
+- 学习成本较高
