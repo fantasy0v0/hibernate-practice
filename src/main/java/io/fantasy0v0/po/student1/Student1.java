@@ -26,7 +26,6 @@ public class Student1 {
   private String name;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT))
   private Clazz1 clazz;
 
   @CreationTimestamp
