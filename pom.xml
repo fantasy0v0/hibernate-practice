@@ -128,6 +128,7 @@
             <plugin>spring</plugin>
           </compilerPlugins>
           <pluginOptions>
+            <!-- 针对jakarta的配置 -->
             <option>all-open:annotation=jakarta.persistence.Entity</option>
             <option>all-open:annotation=jakarta.transaction.Transactional</option>
           </pluginOptions>
