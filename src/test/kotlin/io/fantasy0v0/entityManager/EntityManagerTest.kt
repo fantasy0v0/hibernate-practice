@@ -1,6 +1,7 @@
 package io.fantasy0v0.entityManager
 
 import io.fantasy0v0.helper.StudentHelper
+import io.fantasy0v0.po.student.StudentRepository
 import jakarta.persistence.EntityManager
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
@@ -12,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest
 class EntityManagerTest(
   @Autowired val entityManager: EntityManager,
   @Autowired private val studentHelper: StudentHelper,
+  @Autowired private val studentRepository: StudentRepository
 ) {
 
   @Test
@@ -28,7 +30,16 @@ class EntityManagerTest(
       assertEquals(student.clazz.name, data[0] as String)
       assertTrue(data[1] as Long > 0)
     }
+  }
 
+  @Test
+  fun testInterfaceBased() {
+    val student = studentHelper.create()
+    val result = studentRepository.testInterfaceBased()
+    for (data in result) {
+      assertEquals(student.clazz.name, data.name)
+      assertTrue(data.count > 0)
+    }
   }
 
 }
