@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class JavaTest(
-  @Autowired private val clazz1Repository: Clazz1Repository,
-  @Autowired private val student1Repository: Student1Repository
+class JavaTest @Autowired constructor (
+  private val clazz1Repository: Clazz1Repository,
+  private val student1Repository: Student1Repository
 ) {
 
   @Test

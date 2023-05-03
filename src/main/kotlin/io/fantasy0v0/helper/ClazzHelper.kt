@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
 @Component
-class ClazzHelper(
-  @Autowired private var clazzRepository: ClazzRepository
+class ClazzHelper @Autowired constructor (
+  private var clazzRepository: ClazzRepository
 ) {
 
   fun create(): Clazz {
