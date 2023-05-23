@@ -2,6 +2,7 @@ package io.fantasy0v0.po.student
 
 import io.fantasy0v0.po.AbstractRepository
 import io.fantasy0v0.po.student.dto.StudentClassDto
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.Query
 
 interface StudentRepository: AbstractRepository<Student, Long> {
@@ -43,7 +44,7 @@ interface StudentRepository: AbstractRepository<Student, Long> {
       (?2 is null or s.id = ?2)
   """
   )
-  fun findAll_2(clazzId: Long?, studentId: Long?): List<Student>
+  fun findAll_2(clazzId: Long?, studentId: Long?, pageable: Pageable): List<Student>
 
   @Query(
     """select

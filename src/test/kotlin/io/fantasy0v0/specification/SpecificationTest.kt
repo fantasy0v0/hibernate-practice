@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.data.domain.PageRequest
 
 @Transactional
 @SpringBootTest
@@ -24,7 +25,8 @@ class SpecificationTest(
   fun test() {
     val student = studentHelper.create()
     // 按班级编号查询
-    val students = studentRepository.findAll_2(null, student.id)
+    val pageable = PageRequest.of(0, 10)
+    val students = studentRepository.findAll_2(null, student.id, pageable)
     studentRepository.findById(student.clazz.id)
     Assertions.assertTrue(students.size == 1)
   }
