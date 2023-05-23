@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class DtoTest(
-  @Autowired private val studentRepository: StudentRepository,
-  @Autowired private val studentHelper: StudentHelper
-  ) {
+class DtoTest @Autowired constructor(
+  private val studentRepository: StudentRepository,
+  private val studentHelper: StudentHelper
+) {
 
   @Test
   @Transactional

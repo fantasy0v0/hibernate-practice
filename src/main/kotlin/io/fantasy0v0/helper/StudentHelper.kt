@@ -8,9 +8,10 @@ import org.springframework.stereotype.Component
 import java.time.LocalDateTime
 
 @Component
-class StudentHelper(
-  @Autowired private val clazzHelper: ClazzHelper,
-  @Autowired private val studentRepository: StudentRepository) {
+class StudentHelper @Autowired constructor(
+  private val clazzHelper: ClazzHelper,
+  private val studentRepository: StudentRepository
+) {
 
   fun create(clazz: Clazz? = null, name: String = "xxx"): Student {
     val student = Student(name = name, clazz = clazz ?: clazzHelper.create(), createdAt = LocalDateTime.now())

@@ -10,9 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.data.jpa.domain.Specification
 
 @SpringBootTest
-class ManyToOneTest(
-  @Autowired private val studentHelper: StudentHelper,
-  @Autowired private val studentRepository: StudentRepository
+class ManyToOneTest @Autowired constructor(
+  private val studentHelper: StudentHelper,
+  private val studentRepository: StudentRepository
 ) {
 
   /**

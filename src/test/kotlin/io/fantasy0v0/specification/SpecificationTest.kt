@@ -15,10 +15,10 @@ import org.springframework.data.domain.PageRequest
 
 @Transactional
 @SpringBootTest
-class SpecificationTest(
-  @Autowired private val studentHelper: StudentHelper,
-  @Autowired private val studentRepository: StudentRepository,
-  @Autowired private val entityManager: EntityManager
+class SpecificationTest @Autowired constructor (
+  private val studentHelper: StudentHelper,
+  private val studentRepository: StudentRepository,
+  private val entityManager: EntityManager
 ) {
 
   @Test

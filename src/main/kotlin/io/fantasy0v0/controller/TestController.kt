@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController
 import jakarta.transaction.Transactional
 
 @RestController
-class TestController(
-  @Autowired private val clazzHelper: ClazzHelper,
-  @Autowired private val clazzRepository: ClazzRepository
+class TestController @Autowired constructor(
+  private val clazzHelper: ClazzHelper,
+  private val clazzRepository: ClazzRepository
 ) {
 
   private val log: Logger = LoggerFactory.getLogger(TestController::class.java)
