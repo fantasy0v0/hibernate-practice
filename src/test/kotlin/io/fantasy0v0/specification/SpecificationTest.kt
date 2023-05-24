@@ -42,6 +42,7 @@ class SpecificationTest @Autowired constructor (
     val cb = entityManager.criteriaBuilder
     val cq = cb.createQuery(Long::class.java)
     val root = cq.from(Student::class.java)
+    root.fetch(Student_.clazz)
     cq.select(root[Student_.id])
     cq.where(cb.equal(root[Student_.id], student.id))
     val query = entityManager.createQuery(cq)
@@ -59,6 +60,27 @@ class SpecificationTest @Autowired constructor (
     cq.multiselect(
       root,
       root[Student_.clazz]
+    )
+    cq.where(cb.equal(root[Student_.id], student.id))
+    val query = entityManager.createQuery(cq)
+    query.firstResult = 0
+    query.maxResults = 1
+    Assertions.assertEquals(student.id, query.singleResult.student.id)
+    Assertions.assertEquals(student.clazz.id, query.singleResult.clazz.id)
+  }
+
+  @Test
+  fun testJpaDto() {
+    val student = studentHelper.create()
+    val cb = entityManager.criteriaBuilder
+    val cq = cb.createQuery(StudentClassDto::class.java)
+    val root = cq.from(Student::class.java)
+    cq.select(
+      cb.construct(
+        StudentClassDto::class.java,
+        root,
+        root[Student_.clazz]
+      )
     )
     cq.where(cb.equal(root[Student_.id], student.id))
     val query = entityManager.createQuery(cq)

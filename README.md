@@ -133,7 +133,7 @@ interface StudentRepository: AbstractRepository<Student, Long> {
 }
 ```
 调用该方法, 会为我们自动生成如下的**HQL**语句
-```sql
+```hql
 select s from Student s where s.name = ?1
 ```
 #### 不太想用Query Methods, 有没有直观一点的方法?
@@ -208,9 +208,9 @@ open fun test(): String {
 ## 复杂条件查询
 看过之前章节的人应该会发现, 简单条件查询很难满足实际开发需求, 我们可以通过接下来的内容来了解如何在Spring Data Jpa中进行复杂条件查询
 
-> 这一章节应该是大家都非常关心的问题了吧, 如果不把这个问题解决, 可能会让很多人放弃使用Spring Data Jpa😥
->
-> 接下来为大家介绍一些复杂的查询案例, 看看是否能解决你的需求 
+> 可以尝试了解一下[HQL](https://docs.jboss.org/hibernate/orm/6.2/userguide/html_single/Hibernate_User_Guide.html),
+> 它比Spring Data Jpa提供的方法更加灵活
+> 接下来为大家介绍一些复杂的查询案例, 看看是否能解决你的需求
 
 ## Repository中的方法如何返回非当前实体的对象?
 
@@ -236,6 +236,26 @@ fun findAll(): List<StudentClassDto>
 
 详情可见单元测试**DtoTest#test_1**
 
+@Query对应的代码版
+
+```kotlin
+val cb = entityManager.criteriaBuilder
+val cq = cb.createQuery(StudentClassDto::class.java)
+val root = cq.from(Student::class.java)
+cq.multiselect(
+  root,
+  root[Student_.clazz]
+)
+cq.where(cb.equal(root[Student_.id], student.id))
+val query = entityManager.createQuery(cq)
+query.firstResult = 0
+query.maxResults = 1
+Assertions.assertEquals(student.id, query.singleResult.student.id)
+Assertions.assertEquals(student.clazz.id, query.singleResult.clazz.id)
+```
+
+详情可见单元测试**SpecificationTest#testDto**
+
 ## 使用@Query进行动态条件查询
 
 ```kotlin
@@ -256,3 +276,19 @@ TODO 目前发现的缺陷
 - @Query不能和Specification同时使用
 - Specification只能返回Entity
 - 学习成本较高
+
+## 经验总结
+
+### Spring Data Jpa的findById可能并不好用
+
+findById可以帮我们快速获取一个实体类, 但是我们的实体类中如果有懒加载字段, 并且我们还需要使用这个懒加载字段时, 就会产生2条sql
+
+使用以下的hql可以帮助我们在获取实体类体的同时，获取它的懒加载字段的实体
+
+```hql
+select s from Student s join fetch Clazz where s.id = 1 
+```
+
+### 我们可能并不需要一个实体类?
+
+TODO
