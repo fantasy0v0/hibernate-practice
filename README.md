@@ -109,6 +109,7 @@ studentRepository.getReferenceById
 val student = studentRepository.getReferenceById(1L)
 // 查询学生所在的班级名称
 println(student.clazz.name)
+// 该方法在开启懒加载时会导致产生2次查询的问题, 后面的章节会介绍
 ```
 具体可以到ManyToOneTest#test1中进行试用和调试
 
@@ -209,7 +210,9 @@ open fun test(): String {
 看过之前章节的人应该会发现, 简单条件查询很难满足实际开发需求, 我们可以通过接下来的内容来了解如何在Spring Data Jpa中进行复杂条件查询
 
 > 可以尝试了解一下[HQL](https://docs.jboss.org/hibernate/orm/6.2/userguide/html_single/Hibernate_User_Guide.html),
+>
 > 它比Spring Data Jpa提供的方法更加灵活
+>
 > 接下来为大家介绍一些复杂的查询案例, 看看是否能解决你的需求
 
 ## Repository中的方法如何返回非当前实体的对象?
@@ -281,9 +284,10 @@ TODO 目前发现的缺陷
 
 ### Spring Data Jpa的findById可能并不好用
 
-findById可以帮我们快速获取一个实体类, 但是我们的实体类中如果有懒加载字段, 并且我们还需要使用这个懒加载字段时, 就会产生2条sql
+findById可以帮我们快速获取一个实体类, 但是我们的实体类中如果有懒加载字段, 并且我们还需要使用这个懒加载字段时, 就会产生*
+*2次查询**
 
-使用以下的hql可以帮助我们在获取实体类体的同时，获取它的懒加载字段的实体
+使用以下的hql可以帮助我们在获取实体类体的同时，获取它的懒加载字段的实体, 并且只产生**1次查询**
 
 ```hql
 select s from Student s join fetch Clazz where s.id = 1 
@@ -291,4 +295,4 @@ select s from Student s join fetch Clazz where s.id = 1
 
 ### 我们可能并不需要一个实体类?
 
-TODO
+TODO 尽量直接通过HQL或@Query将实体转换成DTO或者VO, 而不是直接操作实体
