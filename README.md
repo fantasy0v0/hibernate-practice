@@ -280,6 +280,54 @@ TODO 目前发现的缺陷
 - Specification只能返回Entity
 - 学习成本较高
 
+## 利用@Subselect注解解决Specification的局限性
+
+利用@Subselect注解来解决复杂多表查询, 并且还存在动态条件的问题
+
+> 如果不存在动态条件那可以直接使用@Query注解
+
+```java
+
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Immutable
+@Subselect("""
+  SELECT
+    s.id, s.name, c.id as clazz_id, c.name as clazz_name
+  from student s left join clazz c on s.clazz_id = c.id 
+  """)
+@Synchronize({"student", "clazz"})
+public class StudentView {
+
+  @Id
+  private long id;
+
+  @Column
+  private String name;
+
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  private Clazz1 clazz;
+
+  @Column
+  private String clazzName;
+}
+```
+
+由于我们这个类对应的并非数据库的表, 所以我们需要取消和增加一些注解来表明它无法进行**更新**操作
+
+需要取消的注解:
+
+- @Setter
+- @Builder
+
+需要增加的注解:
+
+- @Immutable 表明该Entity只读
+- @Subselect 关联的查询语句
+- @Synchronize 自动flush指定表, 避免无法查询到对应的数据
+
 ## 经验总结
 
 ### Spring Data Jpa的findById可能并不好用
