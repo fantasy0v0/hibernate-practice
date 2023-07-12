@@ -160,14 +160,30 @@ interface StudentRepository: AbstractRepository<Student, Long> {
 }
 ```
 
+### 如何调用原生的函数
+
+JPA默认支持的函数不多,
+可以参考[该章节](https://docs.jboss.org/hibernate/orm/6.0/userguide/html_single/Hibernate_User_Guide.html#hql-exp-functions)
+知道支持的函数列表
+
+对于原生函数的调用, 可以通过以下方法来实现
+
+```hql
+select s from Student s where function('to_char', s.createdAt, 'yyyy-MM-dd HH:mm:ss') 
+```
+
+详情可见单元测试**EntityManagerTest#testNativeFunction**
+
 ## ❗注意事项
 
 ### ❗如何做到动态更新
+
 默认情况下, JPA每次更新都会set所有的非主键字段, 但有些时候我们只需要更新部分字段, 该如何实现呢?
 
 使用@DynamicUpdate注解, 有了该注解的实体类, 在进行更新操作时, 只会更新有数据变更的列
 
 ### ❗阻止某些列参与更新
+
 有些时候, 我们希望就算某些属性发送了变更, 也不要更新到数据库中, 此时只需要在@Column的参数声明updatable = false即可
 
 ### ❗ManyToOne如何不使用外键

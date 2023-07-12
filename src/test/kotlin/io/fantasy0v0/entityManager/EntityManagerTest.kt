@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import java.time.format.DateTimeFormatter
 
 @SpringBootTest
 class EntityManagerTest(
@@ -40,6 +41,19 @@ class EntityManagerTest(
       assertEquals(student.clazz.name, data.name)
       assertTrue(data.count > 0)
     }
+  }
+
+  @Test
+  fun testNativeFunction() {
+    val student = studentHelper.create()
+    val query = entityManager.createQuery("""
+      select s.id from Student s where function('to_char', s.createdAt, 'YYYY-MM-DD HH24:MI:SS') = ?1
+    """.trimIndent(), Long::class.java)
+    val dateStr = student.createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+    query.setParameter(1, dateStr)
+    val result = query.resultList
+    assertEquals(1, result.size)
+    assertEquals(student.id, result[0])
   }
 
 }
