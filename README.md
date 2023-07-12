@@ -235,10 +235,10 @@ open fun test(): String {
 
 > 日常开发中经常会进行一些联表查询, 只返回一个实体对象是远远不能满足需求的
 
-此时需要另外定义一个类来接收这多个实体, 这种类型的类一般我们称它为DTO(Data Transfer Object, 数据传输对象)
+此时需要另外定义一个类来接收这多个实体
 
 ```kotlin
-// DTO的定义
+// 类定义
 class StudentClassDto(
   val student: Student,
   val clazz: Clazz) {
