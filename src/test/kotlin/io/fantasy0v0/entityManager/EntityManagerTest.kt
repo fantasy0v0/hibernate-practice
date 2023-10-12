@@ -3,6 +3,7 @@ package io.fantasy0v0.entityManager
 import io.fantasy0v0.helper.StudentHelper
 import io.fantasy0v0.po.student.StudentRepository
 import jakarta.persistence.EntityManager
+import jakarta.transaction.Transactional
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import java.time.format.DateTimeFormatter
 
+@Transactional
 @SpringBootTest
 class EntityManagerTest(
   @Autowired val entityManager: EntityManager,

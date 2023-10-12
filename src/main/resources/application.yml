@@ -1,7 +1,9 @@
 spring:
   datasource:
-    url: jdbc:h2:file:${Temp}/db1
-    username: sa
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://192.168.8.118:5432/postgres?currentSchema=hibernate_practice
+    username: test
+    password: test
     hikari:
       auto-commit: false
   jpa:
@@ -9,9 +11,9 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.H2Dialect
+      ddl-auto: create-drop
     open-in-view: false
+    database: postgresql
 
 logging:
   level:
