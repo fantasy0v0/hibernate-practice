@@ -36,24 +36,43 @@ class SpecificationTest @Autowired constructor(
     Assertions.assertTrue(students.size == 1)
   }
 
+  class TestPredicateDTO(val studentId: Long, val clazzId: Long)
+
   @Test
   fun testPredicate() {
     val result = entityManager.createQuery("""
       SELECT 'test'
     """.trimIndent()).singleResult
-    Assertions.assertEquals("test", result)
+    assertEquals("test", result)
 
     val student = studentHelper.create()
     val cb = entityManager.criteriaBuilder
     val cq = cb.createQuery(Long::class.java)
-    val root = cq.from(Student::class.java)
-    root.fetch(Student_.clazz)
+    var root = cq.from(Student::class.java)
+    // query specified join fetching,
+    // but the owner of the fetched association was not present in the select list
+    // root.fetch(Student_.clazz)
     cq.select(root[Student_.id])
     cq.where(cb.equal(root[Student_.id], student.id))
     val query = entityManager.createQuery(cq)
     query.firstResult = 0
     query.maxResults = 1
-    Assertions.assertEquals(student.id, query.singleResult)
+    assertEquals(student.id, query.singleResult)
+
+    // multiselect
+    val cq1 = cb.createQuery(TestPredicateDTO::class.java)
+    root = cq1.from(Student::class.java)
+    // root.fetch(Student_.clazz)
+    cq1.multiselect(
+      root[Student_.id].alias("studentId"),
+      root[Student_.clazz][Clazz_.id].alias("clazzId")
+    )
+    cq1.where(cb.equal(root[Student_.id], student.id))
+    val query1 = entityManager.createQuery(cq1)
+    query1.firstResult = 0
+    query1.maxResults = 1
+    assertEquals(student.id, query1.singleResult.studentId)
+    assertEquals(student.clazz.id, query1.singleResult.clazzId)
   }
 
   @Test
@@ -121,7 +140,7 @@ class SpecificationTest @Autowired constructor(
       )
     )
     val subPredicate = builder.equal(
-      studentRoot[Student_.clazz],
+      studentRoot[Student_.clazz][Clazz_.id],
       root[Clazz_.id]
     )
     subQuery.where(subPredicate)
