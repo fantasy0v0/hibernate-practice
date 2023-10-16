@@ -8,6 +8,17 @@
 ## 依赖
 建议引入以下依赖, 该依赖会自动生成实体类的一些可能会用到的对象和常量, 方便在后面的条件查询时使用
 
+### Hibernate 6及以上
+
+```xml
+
+<dependency>
+  <groupId>org.hibernate.orm</groupId>
+  <artifactId>hibernate-jpamodelgen</artifactId>
+</dependency>
+```
+
+### Hibernate 6以下
 ```xml
 <dependency>
   <groupId>org.hibernate</groupId>
