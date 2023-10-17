@@ -1,10 +1,11 @@
 package io.fantasy0v0.po.student
 
 import io.fantasy0v0.po.clazz.Clazz
-import org.hibernate.annotations.DynamicUpdate
-import java.time.LocalDateTime
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.DynamicUpdate
+import org.hibernate.annotations.UpdateTimestamp
+import java.time.LocalDateTime
 
 @Entity
 @DynamicUpdate
@@ -21,5 +22,9 @@ class Student(
 
   @CreationTimestamp
   @Column(nullable = false, updatable = false)
-  var createdAt: LocalDateTime
+  var createdAt: LocalDateTime = LocalDateTime.MIN,
+
+  @UpdateTimestamp
+  @Column(nullable = false)
+  var updatedAt: LocalDateTime = LocalDateTime.MIN
 )

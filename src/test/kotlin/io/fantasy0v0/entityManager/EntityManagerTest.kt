@@ -58,4 +58,16 @@ class EntityManagerTest(
     assertEquals(student.id, result[0])
   }
 
+  @Test
+  fun testQuery() {
+    studentHelper.create()
+    /*val student = studentRepository.findByIdOrNull(102)
+    log.debug("{}", student?.createdAt)
+    log.debug("{}", student?.updatedAt)
+    student?.name = "测试修改123"
+    if (student != null) {
+      studentRepository.save(student)
+    }*/
+  }
+
 }

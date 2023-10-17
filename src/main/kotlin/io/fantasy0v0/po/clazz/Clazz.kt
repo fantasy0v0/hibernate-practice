@@ -1,9 +1,9 @@
 package io.fantasy0v0.po.clazz
 
-import org.hibernate.annotations.DynamicUpdate
-import java.time.LocalDateTime
 import jakarta.persistence.*
 import org.hibernate.annotations.CreationTimestamp
+import org.hibernate.annotations.DynamicUpdate
+import java.time.LocalDateTime
 
 @Entity
 @DynamicUpdate
@@ -17,5 +17,5 @@ class Clazz(
 
   @CreationTimestamp
   @Column(nullable = false, updatable = false)
-  var createdAt: LocalDateTime
+  var createdAt: LocalDateTime = LocalDateTime.MIN
 )

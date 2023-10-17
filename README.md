@@ -286,6 +286,10 @@ Assertions.assertEquals(student.clazz.id, query.singleResult.clazz.id)
 
 详情可见单元测试**SpecificationTest#testDto**
 
+### 我们可能并不需要一个实体类?
+
+尽量直接通过HQL或@Query将实体转换成DTO或者VO, 而不是直接操作实体
+
 ## 使用@Query进行动态条件查询
 
 ```kotlin
@@ -367,7 +371,3 @@ findById可以帮我们快速获取一个实体类, 但是我们的实体类中�
 ```hql
 select s from Student s join fetch Clazz where s.id = 1 
 ```
-
-### 我们可能并不需要一个实体类?
-
-TODO 尽量直接通过HQL或@Query将实体转换成DTO或者VO, 而不是直接操作实体
