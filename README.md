@@ -371,3 +371,14 @@ findById可以帮我们快速获取一个实体类, 但是我们的实体类中�
 ```hql
 select s from Student s join fetch Clazz where s.id = 1 
 ```
+
+### 如果不触发懒加载的情况下, 获得关联对象编号
+
+```java
+Session session=(Session)this.entityManager.unwrap(Session.class);
+  Long id=session.getIdentifier(entity);
+```
+
+> Hibernate 6的触发方式貌似发生了修改, **如果只获取id, 不会触发懒加载**
+>
+> 有空实验一下
