@@ -305,15 +305,17 @@ fun findAll_2(clazzId: Long?, studentId: Long?): List<Student>
 
 ## 使用Specification进行动态条件查询
 
-TODO 目前发现的缺陷
+TODO 目前发现的问题
 
 - @Query不能和Specification同时使用
 - Specification只能返回Entity
-- 学习成本较高
+- 如果结果依赖了懒加载字段, 在查询时需要手动标记一下需要fetch的字段
+
+TODO
 
 ## 利用@Subselect注解解决Specification的局限性
 
-利用@Subselect注解来解决复杂多表查询, 并且还存在动态条件的问题
+利用@Subselect注解来解决复杂多表查询, 同时还解决了动态条件的问题
 
 > 如果不存在动态条件那可以直接使用@Query注解
 
