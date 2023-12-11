@@ -89,8 +89,8 @@ class SpecificationTest @Autowired constructor(
     val query = entityManager.createQuery(cq)
     query.firstResult = 0
     query.maxResults = 1
-    Assertions.assertEquals(student.id, query.singleResult.student.id)
-    Assertions.assertEquals(student.clazz.id, query.singleResult.clazz.id)
+    assertEquals(student.id, query.singleResult.student.id)
+    assertEquals(student.clazz.id, query.singleResult.clazz.id)
   }
 
   @Test
@@ -110,8 +110,8 @@ class SpecificationTest @Autowired constructor(
     val query = entityManager.createQuery(cq)
     query.firstResult = 0
     query.maxResults = 1
-    Assertions.assertEquals(student.id, query.singleResult.student.id)
-    Assertions.assertEquals(student.clazz.id, query.singleResult.clazz.id)
+    assertEquals(student.id, query.singleResult.student.id)
+    assertEquals(student.clazz.id, query.singleResult.clazz.id)
   }
 
   @Test

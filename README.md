@@ -1,7 +1,18 @@
 # Spring Data JPA 使用经验总结
 
 ## 说明
-本项目使用Kotlin作为主要语言, 但如果与Java的版本有较大差异时, 我也会单独写一份Java版的样例供大家参考  
+
+本项目使用Kotlin作为主要语言, 但如果与Java的版本有较大差异时, 我也会单独写一份Java版的样例供大家参考
+
+## 涉及的版本
+
+| 项目          | 版本          | 备注                  |
+|-------------|-------------|---------------------|
+| Java        | 21          |                     |
+| Kotlin      | 1.9.21      |                     |
+| Spring Boot | 3.2.0       |                     |
+| Hibernate   | 6.3.1.Final |                     |
+| PostgreSQL  | 16          | (为了更贴合实际, 所以替换成了PG) | 
 
 ## 前置工作
 
@@ -376,11 +387,22 @@ select s from Student s join fetch Clazz where s.id = 1
 
 ### 如果不触发懒加载的情况下, 获得关联对象编号
 
-```java
-Session session=(Session)this.entityManager.unwrap(Session.class);
-  Long id=session.getIdentifier(entity);
+从Hibernate 6开始, **如果只获取id, 不会触发懒加载**
+
+详情请查看LazyTest#getClazzId方法的代码及日志
+
+```kotlin
+val optional = studentRepository.findById(studentId)
+assertTrue(optional.isPresent)
+val student = optional.get()
+// 只获取id不会触发
+log.debug("clazz id: {}", student.clazz.id)
+// 触发懒加载, 由于没有事物, 所以导致报错
+log.debug("clazz name: {}", student.clazz.name)
 ```
 
-> Hibernate 6的触发方式貌似发生了修改, **如果只获取id, 不会触发懒加载**
->
-> 有空实验一下
+#### 旧版本
+```java
+Session session = (Session) this.entityManager.unwrap(Session.class);
+Long id = session.getIdentifier(entity);
+```
