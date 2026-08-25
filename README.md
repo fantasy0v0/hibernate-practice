@@ -1,3 +1,5 @@
+
+
 # Spring Data JPA 使用经验总结
 
 ## 说明
@@ -276,7 +278,7 @@ class StudentClassDto(
     new io.fantasy0v0.po.student.dto.StudentClassDto(s, c)
     from Student s left join Clazz c on c = s.clazz
   """)
-fun findAll(): List<StudentClassDto>
+fun findAll_1(): List<StudentClassDto>
 ```
 
 详情可见单元测试**DtoTest#test_1**
